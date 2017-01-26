@@ -1,0 +1,27 @@
+name: Canonical
+version: 0.1.0
+description: Seo canonical
+icon: plug
+author:
+  name: Jared D.
+  email: jared.dang@gmail.com
+homepage: https://github.com/jared-d-/grav-plugin-canonical
+demo: http://demo.yoursite.com
+keywords: grav, plugin, etc
+bugs: https://github.com/jared-d-/grav-plugin-canonical/issues
+docs: https://github.com/jared-d-/grav-plugin-canonical/blob/develop/README.md
+license: MIT
+
+form:
+  validation: strict
+  fields:
+    enabled:
+      type: toggle
+      label: Plugin status
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
