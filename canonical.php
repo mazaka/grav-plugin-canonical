@@ -38,23 +38,20 @@ class CanonicalPlugin extends Plugin
             return;
         }
 
-        $enabled = $this->config->get('plugins.canonical.enabled');
-
-        if ($enabled) {
-            $this->enable([
-                'onPageInitialized' => ['onPageInitialized', 0]
-            ]);
-        }
+        $this->enable([
+            'onTwigSiteVariables'     => ['onTwigSiteVariables', 0],
+        ]);
     }
 
-    public function onPageInitialized()
+
+    /**
+     * Add Twig function
+     */
+    public function onTwigSiteVariables()
     {
-        $this->grav['twig']->twig()->addFunction(
-            new \Twig_SimpleFunction('canonical', function($page) {
-                return $this->generateCanonical($page);
-            })
-        );
+        $this->grav['twig']->twig_vars['canonical'] = $this->generateCanonical();
     }
+
 
     private function getTranslatedPageUrls(Page $page)
     {
@@ -103,9 +100,13 @@ class CanonicalPlugin extends Plugin
     }
 
 
-    private function generateCanonical(Page $page = null)
+    private function generateCanonical()
     {
-        if (is_null($page)) {
+        $enabled = $this->config->get('plugins.canonical.enabled');
+
+        $page = $this->grav['page'];
+
+        if (!$page || !$enabled) {
             return '';
         }
 
